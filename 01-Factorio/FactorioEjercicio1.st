@@ -1,5 +1,5 @@
-!classDefinition: #Cinta category: 'Factorio'!
-DenotativeObject subclass: #Cinta
+!classDefinition: #CintaAzul category: 'Factorio'!
+DenotativeObject subclass: #CintaAzul
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -7,26 +7,67 @@ DenotativeObject subclass: #Cinta
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Cinta class' category: 'Factorio'!
-Cinta class
+!classDefinition: 'CintaAzul class' category: 'Factorio'!
+CintaAzul class
 	instanceVariableNames: 'origen contenido destino'!
 
-!Cinta class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:23:53'!
+!CintaAzul class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:31:38'!
 agregar: unElemento
 	contenido add: unElemento
 	 ! !
 
-!Cinta class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 20:52:05'!
+!CintaAzul class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:31:38'!
 conectarA: unDestino
 	destino := unDestino.
 
 ! !
 
-!Cinta class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:21:03'!
+!CintaAzul class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:31:38'!
 extraer
 	destino agregar: contenido removeFirst.! !
 
-!Cinta class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:25:34'!
+!CintaAzul class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:47:30'!
+initializeCollaboratorsFromFile
+	"Auto generated method for loading purposes - Do not modify it"
+
+	origen := nil.
+	contenido := ((OrderedCollection new)).
+	destino := CintaRoja.! !
+
+!CintaAzul class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:31:38'!
+vaciar
+	contenido := OrderedCollection new.! !
+
+
+!classDefinition: #CintaRoja category: 'Factorio'!
+DenotativeObject subclass: #CintaRoja
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Factorio'!
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'CintaRoja class' category: 'Factorio'!
+CintaRoja class
+	instanceVariableNames: 'origen contenido destino'!
+
+!CintaRoja class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:23:53'!
+agregar: unElemento
+	contenido add: unElemento
+	 ! !
+
+!CintaRoja class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 20:52:05'!
+conectarA: unDestino
+	destino := unDestino.
+
+! !
+
+!CintaRoja class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:21:03'!
+extraer
+	destino agregar: contenido removeFirst.! !
+
+!CintaRoja class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:47:30'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -34,7 +75,7 @@ initializeCollaboratorsFromFile
 	contenido := ((OrderedCollection new)).
 	destino := Contenedor.! !
 
-!Cinta class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:03:46'!
+!CintaRoja class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:03:46'!
 vaciar
 	contenido := OrderedCollection new.! !
 
@@ -64,11 +105,11 @@ cantidadDe: unaMenaDeMuestra
 cantidadDeMenas
 	^contenido size.! !
 
-!Contenedor class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:25:34'!
+!Contenedor class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:47:30'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
-	contenido := ((OrderedCollection new) add: #carbon; yourself).! !
+	contenido := ((OrderedCollection new) add: #carbon; add: #hierro; yourself).! !
 
 !Contenedor class methodsFor: 'as yet unclassified' stamp: 'SF 10/23/2020 00:35:51'!
 vaciar
@@ -96,11 +137,39 @@ conectarA: unDestino
 extraer
 	destino agregar: #carbon.! !
 
-!ExtractorDeCarbon class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:25:34'!
+!ExtractorDeCarbon class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:47:30'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
-	destino := Cinta.! !
+	destino := CintaRoja.! !
+
+
+!classDefinition: #ExtractorDeHierro category: 'Factorio'!
+DenotativeObject subclass: #ExtractorDeHierro
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Factorio'!
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'ExtractorDeHierro class' category: 'Factorio'!
+ExtractorDeHierro class
+	instanceVariableNames: 'destino'!
+
+!ExtractorDeHierro class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:37:37'!
+conectarA: unDestino
+	destino := unDestino.! !
+
+!ExtractorDeHierro class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:37:55'!
+extraer
+	destino agregar: #hierro.! !
+
+!ExtractorDeHierro class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:47:30'!
+initializeCollaboratorsFromFile
+	"Auto generated method for loading purposes - Do not modify it"
+
+	destino := CintaAzul.! !
 
 
 !classDefinition: #FactorioTest category: 'Factorio'!
@@ -139,21 +208,21 @@ test01ExtractorCaja
 	Assert that: Contenedor cantidadDeMenas isEqualTo: 1.! !
 
 
-!FactorioTest class methodsFor: 'escenario 2' stamp: 'mlm 10/25/2020 20:50:21'!
+!FactorioTest class methodsFor: 'escenario 2' stamp: 'mlm 10/25/2020 21:30:47'!
 configurarCircuitoExtractorCintaCaja
 
 	Contenedor vaciar.
-	Cinta vaciar.
-	ExtractorDeCarbon conectarA: Cinta.
-	Cinta conectarA: Contenedor.
+	CintaRoja vaciar.
+	ExtractorDeCarbon conectarA: CintaRoja.
+	CintaRoja conectarA: Contenedor.
 	"No se olviden de vaciar la cinta tambien!!"
 	"Conectamos el extractor a la cinta, luego conectamos la cinta a la caja"
 ! !
 
-!FactorioTest class methodsFor: 'escenario 2' stamp: 'mlm 10/25/2020 21:14:39'!
+!FactorioTest class methodsFor: 'escenario 2' stamp: 'mlm 10/25/2020 21:30:47'!
 hacerAndarCircuitoExtractorCintaCaja
 	ExtractorDeCarbon extraer.
-	Cinta extraer.
+	CintaRoja extraer.
 	
 	
 	"Hacemos andar el extractor, asi deja un carbon en la cinta.
@@ -170,10 +239,18 @@ test02ExtractorCintaCaja
 	"Tambien tenemos que chequear que en la cinta no haya nada. Cero carbon."! !
 
 
-!FactorioTest class methodsFor: 'escenario 3' stamp: 'SF 10/23/2020 01:01:20'!
+!FactorioTest class methodsFor: 'escenario 3' stamp: 'mlm 10/25/2020 21:39:27'!
 configurarCircuitoExtractorExtractorCintaCintaCaja
 
 	Contenedor vaciar.
+	"Cinta del extractor de carbón"
+	CintaRoja vaciar.
+	"Cinta del extractor de hierro"
+	CintaAzul vaciar.
+	ExtractorDeCarbon conectarA: CintaRoja.
+	ExtractorDeHierro conectarA: CintaAzul.
+	CintaRoja conectarA: Contenedor.
+	CintaAzul conectarA: CintaRoja.
 	"Además de vaciar el Contenedor (arriba) también vaciamos las dos cintas"
 	"Conectamos el extractor de carbon a una de las cintas"
 	"Conectamos el extractor de hierro a la otra cinta"
@@ -182,9 +259,13 @@ configurarCircuitoExtractorExtractorCintaCintaCaja
 	
 ! !
 
-!FactorioTest class methodsFor: 'escenario 3' stamp: 'SF 10/23/2020 01:02:57'!
+!FactorioTest class methodsFor: 'escenario 3' stamp: 'mlm 10/25/2020 21:44:27'!
 hacerAndarCircuitoExtractorExtractorCintaCintaCaja
-	
+	ExtractorDeCarbon extraer.
+	ExtractorDeHierro extraer.
+	CintaAzul extraer.
+	CintaRoja extraer.
+	CintaRoja extraer.
 	"Hacemos andar el extractor, asi deja un carbon en la cinta.
 	Lo mismo con el otro extractor, asi deja una mena de hierro en la otra cinta.
 	Hacemos andar la cinta con la mena de hierro, asi la deposita en la cinta que tiene el carbon.
@@ -202,6 +283,8 @@ test03ExtractorExtractorCintaCintaCaja
 	Assert that: Contenedor cantidadDeMenas isEqualTo: 2.
 	"Tambien tenemos que chequear que no haya nada en las cintas"! !
 
-Cinta initializeAfterFileIn!
+CintaAzul initializeAfterFileIn!
+CintaRoja initializeAfterFileIn!
 Contenedor initializeAfterFileIn!
 ExtractorDeCarbon initializeAfterFileIn!
+ExtractorDeHierro initializeAfterFileIn!
