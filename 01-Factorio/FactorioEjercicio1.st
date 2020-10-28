@@ -22,11 +22,11 @@ conectarA: unDestino
 
 ! !
 
-!CintaAzul class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:31:38'!
-extraer
+!CintaAzul class methodsFor: 'as yet unclassified' stamp: 'FR 10/27/2020 21:43:44'!
+desplazarPrimerElemento
 	destino agregar: contenido removeFirst.! !
 
-!CintaAzul class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:47:30'!
+!CintaAzul class methodsFor: 'as yet unclassified' stamp: 'FR 10/27/2020 21:47:57'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -63,11 +63,11 @@ conectarA: unDestino
 
 ! !
 
-!CintaRoja class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:21:03'!
-extraer
+!CintaRoja class methodsFor: 'as yet unclassified' stamp: 'FR 10/27/2020 21:43:29'!
+desplazarPrimerElemento
 	destino agregar: contenido removeFirst.! !
 
-!CintaRoja class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:47:30'!
+!CintaRoja class methodsFor: 'as yet unclassified' stamp: 'FR 10/27/2020 21:47:57'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -105,7 +105,7 @@ cantidadDe: unaMenaDeMuestra
 cantidadDeMenas
 	^contenido size.! !
 
-!Contenedor class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:47:30'!
+!Contenedor class methodsFor: 'as yet unclassified' stamp: 'FR 10/27/2020 21:47:57'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -133,11 +133,11 @@ ExtractorDeCarbon class
 conectarA: unDestino
 	destino := unDestino.! !
 
-!ExtractorDeCarbon class methodsFor: 'as yet unclassified' stamp: 'SF 10/23/2020 00:33:50'!
-extraer
+!ExtractorDeCarbon class methodsFor: 'as yet unclassified' stamp: 'FR 10/27/2020 21:35:20'!
+depositarCarbonEnDestino
 	destino agregar: #carbon.! !
 
-!ExtractorDeCarbon class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:47:30'!
+!ExtractorDeCarbon class methodsFor: 'as yet unclassified' stamp: 'FR 10/27/2020 21:47:57'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -161,11 +161,11 @@ ExtractorDeHierro class
 conectarA: unDestino
 	destino := unDestino.! !
 
-!ExtractorDeHierro class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:37:55'!
-extraer
+!ExtractorDeHierro class methodsFor: 'as yet unclassified' stamp: 'FR 10/27/2020 21:34:55'!
+depositarHierroEnDestino
 	destino agregar: #hierro.! !
 
-!ExtractorDeHierro class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:47:30'!
+!ExtractorDeHierro class methodsFor: 'as yet unclassified' stamp: 'FR 10/27/2020 21:47:57'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -192,10 +192,10 @@ configurarCircuitoExtractorCaja.
 	ExtractorDeCarbon conectarA: Contenedor.	
 ! !
 
-!FactorioTest class methodsFor: 'escenario 1' stamp: 'SF 10/23/2020 00:55:32'!
+!FactorioTest class methodsFor: 'escenario 1' stamp: 'FR 10/27/2020 21:38:21'!
 hacerAndarCircuitoExtractorCaja
 
-	ExtractorDeCarbon extraer.
+	ExtractorDeCarbon depositarCarbonEnDestino .
 	! !
 
 !FactorioTest class methodsFor: 'escenario 1' stamp: 'SF 10/23/2020 00:53:55'!
@@ -219,10 +219,10 @@ configurarCircuitoExtractorCintaCaja
 	"Conectamos el extractor a la cinta, luego conectamos la cinta a la caja"
 ! !
 
-!FactorioTest class methodsFor: 'escenario 2' stamp: 'mlm 10/25/2020 21:30:47'!
+!FactorioTest class methodsFor: 'escenario 2' stamp: 'FR 10/27/2020 21:43:58'!
 hacerAndarCircuitoExtractorCintaCaja
-	ExtractorDeCarbon extraer.
-	CintaRoja extraer.
+	ExtractorDeCarbon depositarCarbonEnDestino .
+	CintaRoja desplazarPrimerElemento .
 	
 	
 	"Hacemos andar el extractor, asi deja un carbon en la cinta.
@@ -259,13 +259,13 @@ configurarCircuitoExtractorExtractorCintaCintaCaja
 	
 ! !
 
-!FactorioTest class methodsFor: 'escenario 3' stamp: 'mlm 10/25/2020 21:44:27'!
+!FactorioTest class methodsFor: 'escenario 3' stamp: 'FR 10/27/2020 21:44:40'!
 hacerAndarCircuitoExtractorExtractorCintaCintaCaja
-	ExtractorDeCarbon extraer.
-	ExtractorDeHierro extraer.
-	CintaAzul extraer.
-	CintaRoja extraer.
-	CintaRoja extraer.
+	ExtractorDeCarbon depositarCarbonEnDestino .
+	ExtractorDeHierro depositarHierroEnDestino .
+	CintaAzul desplazarPrimerElemento .
+	CintaRoja desplazarPrimerElemento .
+	CintaRoja desplazarPrimerElemento .
 	"Hacemos andar el extractor, asi deja un carbon en la cinta.
 	Lo mismo con el otro extractor, asi deja una mena de hierro en la otra cinta.
 	Hacemos andar la cinta con la mena de hierro, asi la deposita en la cinta que tiene el carbon.
