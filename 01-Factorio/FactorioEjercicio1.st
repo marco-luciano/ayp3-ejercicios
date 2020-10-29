@@ -16,6 +16,10 @@ agregar: unElemento
 	contenido add: unElemento
 	 ! !
 
+!CintaAzul class methodsFor: 'as yet unclassified' stamp: 'mlm 10/29/2020 00:08:24'!
+cantidadDeMenas
+	^contenido size.! !
+
 !CintaAzul class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 21:31:38'!
 conectarA: unDestino
 	destino := unDestino.
@@ -26,7 +30,11 @@ conectarA: unDestino
 desplazarPrimerElemento
 	destino agregar: contenido removeFirst.! !
 
-!CintaAzul class methodsFor: 'as yet unclassified' stamp: 'FR 10/27/2020 21:47:57'!
+!CintaAzul class methodsFor: 'as yet unclassified' stamp: 'mlm 10/29/2020 00:22:26'!
+desplazarTodo
+	[self cantidadDeMenas isEqualTo: 0] whileFalse: [self desplazarPrimerElemento]! !
+
+!CintaAzul class methodsFor: 'as yet unclassified' stamp: 'mlm 10/29/2020 00:56:33'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -57,6 +65,10 @@ agregar: unElemento
 	contenido add: unElemento
 	 ! !
 
+!CintaRoja class methodsFor: 'as yet unclassified' stamp: 'mlm 10/28/2020 23:52:10'!
+cantidadDeMenas
+	^contenido size.! !
+
 !CintaRoja class methodsFor: 'as yet unclassified' stamp: 'mlm 10/25/2020 20:52:05'!
 conectarA: unDestino
 	destino := unDestino.
@@ -67,7 +79,11 @@ conectarA: unDestino
 desplazarPrimerElemento
 	destino agregar: contenido removeFirst.! !
 
-!CintaRoja class methodsFor: 'as yet unclassified' stamp: 'FR 10/27/2020 21:47:57'!
+!CintaRoja class methodsFor: 'as yet unclassified' stamp: 'mlm 10/29/2020 00:22:01'!
+desplazarTodo
+	[self cantidadDeMenas isEqualTo: 0] whileFalse: [self desplazarPrimerElemento]! !
+
+!CintaRoja class methodsFor: 'as yet unclassified' stamp: 'mlm 10/29/2020 00:56:33'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -105,7 +121,7 @@ cantidadDe: unaMenaDeMuestra
 cantidadDeMenas
 	^contenido size.! !
 
-!Contenedor class methodsFor: 'as yet unclassified' stamp: 'FR 10/27/2020 21:47:57'!
+!Contenedor class methodsFor: 'as yet unclassified' stamp: 'mlm 10/29/2020 00:56:33'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -137,7 +153,7 @@ conectarA: unDestino
 depositarCarbonEnDestino
 	destino agregar: #carbon.! !
 
-!ExtractorDeCarbon class methodsFor: 'as yet unclassified' stamp: 'FR 10/27/2020 21:47:57'!
+!ExtractorDeCarbon class methodsFor: 'as yet unclassified' stamp: 'mlm 10/29/2020 00:56:33'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -165,7 +181,7 @@ conectarA: unDestino
 depositarHierroEnDestino
 	destino agregar: #hierro.! !
 
-!ExtractorDeHierro class methodsFor: 'as yet unclassified' stamp: 'FR 10/27/2020 21:47:57'!
+!ExtractorDeHierro class methodsFor: 'as yet unclassified' stamp: 'mlm 10/29/2020 00:56:33'!
 initializeCollaboratorsFromFile
 	"Auto generated method for loading purposes - Do not modify it"
 
@@ -208,27 +224,28 @@ test01ExtractorCaja
 	Assert that: Contenedor cantidadDeMenas isEqualTo: 1.! !
 
 
-!FactorioTest class methodsFor: 'escenario 2' stamp: 'mlm 10/25/2020 21:30:47'!
+!FactorioTest class methodsFor: 'escenario 2' stamp: 'mlm 10/29/2020 00:45:20'!
 configurarCircuitoExtractorCintaCaja
-
+	"No se olviden de vaciar la cinta tambien!!"
+	"Conectamos el extractor a la cinta, luego conectamos la cinta a la caja"
 	Contenedor vaciar.
 	CintaRoja vaciar.
 	ExtractorDeCarbon conectarA: CintaRoja.
 	CintaRoja conectarA: Contenedor.
-	"No se olviden de vaciar la cinta tambien!!"
-	"Conectamos el extractor a la cinta, luego conectamos la cinta a la caja"
+	
 ! !
 
-!FactorioTest class methodsFor: 'escenario 2' stamp: 'FR 10/27/2020 21:43:58'!
+!FactorioTest class methodsFor: 'escenario 2' stamp: 'mlm 10/29/2020 00:44:38'!
 hacerAndarCircuitoExtractorCintaCaja
-	ExtractorDeCarbon depositarCarbonEnDestino .
-	CintaRoja desplazarPrimerElemento .
-	
-	
 	"Hacemos andar el extractor, asi deja un carbon en la cinta.
-	Luego hacemos andar la cinta (con algun mensaje) y deberia dejar el carbon en la caja.	"! !
+	Luego hacemos andar la cinta (con algun mensaje) y deberia dejar el carbon en la caja.	"
+	ExtractorDeCarbon depositarCarbonEnDestino.
+	CintaRoja desplazarPrimerElemento.
+	
+	
+	! !
 
-!FactorioTest class methodsFor: 'escenario 2' stamp: 'SF 10/23/2020 00:58:33'!
+!FactorioTest class methodsFor: 'escenario 2' stamp: 'mlm 10/29/2020 00:31:31'!
 test02ExtractorCintaCaja
 	self configurarCircuitoExtractorCintaCaja.
 	
@@ -236,43 +253,50 @@ test02ExtractorCintaCaja
 	
 	Assert that: (Contenedor cantidadDe: #carbon) isEqualTo: 1.
 	Assert that: Contenedor cantidadDeMenas isEqualTo: 1.
-	"Tambien tenemos que chequear que en la cinta no haya nada. Cero carbon."! !
+	
+	"Tambien tenemos que chequear que en la cinta no haya nada. Cero carbon."
+	Assert that: CintaRoja cantidadDeMenas isEqualTo: 0.! !
 
 
-!FactorioTest class methodsFor: 'escenario 3' stamp: 'mlm 10/25/2020 21:39:27'!
+!FactorioTest class methodsFor: 'escenario 3' stamp: 'mlm 10/29/2020 00:46:19'!
 configurarCircuitoExtractorExtractorCintaCintaCaja
-
 	Contenedor vaciar.
+	"Además de vaciar el Contenedor (arriba) también vaciamos las dos cintas"
 	"Cinta del extractor de carbón"
 	CintaRoja vaciar.
 	"Cinta del extractor de hierro"
 	CintaAzul vaciar.
-	ExtractorDeCarbon conectarA: CintaRoja.
-	ExtractorDeHierro conectarA: CintaAzul.
-	CintaRoja conectarA: Contenedor.
-	CintaAzul conectarA: CintaRoja.
-	"Además de vaciar el Contenedor (arriba) también vaciamos las dos cintas"
+	
 	"Conectamos el extractor de carbon a una de las cintas"
+	ExtractorDeCarbon conectarA: CintaRoja.
 	"Conectamos el extractor de hierro a la otra cinta"
+	ExtractorDeHierro conectarA: CintaAzul.
 	"Ahora conectamos la primer cinta al Contenedor"
+	CintaRoja conectarA: Contenedor.
 	"Y conectamos la segunda cinta a la primer cinta"
+	CintaAzul conectarA: CintaRoja.
+
+
+
+	
+	
 	
 ! !
 
-!FactorioTest class methodsFor: 'escenario 3' stamp: 'FR 10/27/2020 21:44:40'!
+!FactorioTest class methodsFor: 'escenario 3' stamp: 'mlm 10/29/2020 00:45:47'!
 hacerAndarCircuitoExtractorExtractorCintaCintaCaja
-	ExtractorDeCarbon depositarCarbonEnDestino .
-	ExtractorDeHierro depositarHierroEnDestino .
-	CintaAzul desplazarPrimerElemento .
-	CintaRoja desplazarPrimerElemento .
-	CintaRoja desplazarPrimerElemento .
 	"Hacemos andar el extractor, asi deja un carbon en la cinta.
 	Lo mismo con el otro extractor, asi deja una mena de hierro en la otra cinta.
 	Hacemos andar la cinta con la mena de hierro, asi la deposita en la cinta que tiene el carbon.
 	Ahora podemos hacer andar la ultima cinta, la que recibió primero el carbon 
-	y ahora tambien tiene el hierro y que deje todo en el Contenedor."! !
+	y ahora tambien tiene el hierro y que deje todo en el Contenedor."
+	ExtractorDeCarbon depositarCarbonEnDestino.
+	ExtractorDeHierro depositarHierroEnDestino.
+	CintaAzul desplazarTodo.
+	CintaRoja desplazarTodo.
+	! !
 
-!FactorioTest class methodsFor: 'escenario 3' stamp: 'SF 10/23/2020 01:03:37'!
+!FactorioTest class methodsFor: 'escenario 3' stamp: 'mlm 10/29/2020 00:31:24'!
 test03ExtractorExtractorCintaCintaCaja
 	self configurarCircuitoExtractorExtractorCintaCintaCaja.
 	
@@ -281,7 +305,11 @@ test03ExtractorExtractorCintaCintaCaja
 	Assert that: (Contenedor cantidadDe: #carbon) isEqualTo: 1.
 	Assert that: (Contenedor cantidadDe: #hierro) isEqualTo: 1.
 	Assert that: Contenedor cantidadDeMenas isEqualTo: 2.
-	"Tambien tenemos que chequear que no haya nada en las cintas"! !
+	
+	"Tambien tenemos que chequear que no haya nada en las cintas"
+	Assert that: CintaRoja cantidadDeMenas isEqualTo: 0.
+	Assert that: CintaAzul cantidadDeMenas isEqualTo: 0.
+! !
 
 CintaAzul initializeAfterFileIn!
 CintaRoja initializeAfterFileIn!
