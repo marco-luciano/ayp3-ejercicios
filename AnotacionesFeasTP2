@@ -1,0 +1,14 @@
+1 - 2) Metodo que devuelve la cantidad de tiempo que tarda hacer
+una operacion utilizando clojures. (Para tests).
+
+
+3 - 4 - 7 - 8) Metodo que maneja los errores, CLojure a probar, Error a esperar, Clojure en caso de error.
+
+7 - 8) Tenemos los mismos bloques de codigo dentro de el manejo de errores.
+
+5 - 6) Metodo que haga asser de customers activos, suspendidos y numero total. Estos 3 numeros se le pasa por argumento.
+
+------------------------------------------------------------------------
+Customer propiedad de activo o suspendido -> Array
+removeCustomerNamed -> Repeticion de metodo find (OrderedCollection -> Inlcudes)
+Posible cambio de estatus (remover de activo a suspendido y viceversa)
