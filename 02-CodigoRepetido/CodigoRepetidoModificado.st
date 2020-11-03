@@ -21,20 +21,21 @@ TestCase subclass: #CustomerBookTest
 	poolDictionaries: ''
 	category: 'CodigoRepetido-Ejercicio'!
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/3/2020 17:59:47'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/3/2020 18:48:03'!
 test01AddingCustomerShouldNotTakeMoreThan50Milliseconds
 
 	| customerBook executionTimeInMilliseconds |
 	
 	customerBook := CustomerBook new.
 	
-	executionTimeInMilliseconds := self codeExectionTime: [customerBook addCustomerNamed: 'John Lennon'.].
+	executionTimeInMilliseconds := self codeExectionTime: [customerBook addCustomerNamed: 'John 
+		Lennon'.].
 	
 	self assert: (executionTimeInMilliseconds ) < (50 * millisecond)
 	
 ! !
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/3/2020 18:01:56'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/3/2020 18:47:48'!
 test02RemovingCustomerShouldNotTakeMoreThan100Milliseconds
 
 	| customerBook executionTimeInMilliseconds paulMcCartney |
@@ -44,7 +45,7 @@ test02RemovingCustomerShouldNotTakeMoreThan100Milliseconds
 	
 	customerBook addCustomerNamed: paulMcCartney.
 	  	
-	executionTimeInMilliseconds := self codeExectionTime: [customerBook removeCustomerNamed: paulMcCartney.].
+	executionTimeInMilliseconds := self codeExectionTime: [customerBook removeCustomerNamed: 		paulMcCartney.].
 	
 	self assert: (executionTimeInMilliseconds ) < (100 * millisecond)
 	
