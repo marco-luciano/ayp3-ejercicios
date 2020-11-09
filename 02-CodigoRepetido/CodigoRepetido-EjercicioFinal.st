@@ -21,12 +21,12 @@ TestCase subclass: #CustomerBookTest
 	poolDictionaries: ''
 	category: 'CodigoRepetido-Ejercicio'!
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/3/2020 21:18:45'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/8/2020 23:06:35'!
 test01AddingCustomerShouldNotTakeMoreThan50Milliseconds
 
 	| executionTimeInMilliseconds |
 	
-	self setUpTestCustomerBook.
+	self setUpNewCustomerBook.
 	
 	executionTimeInMilliseconds := self codeExecutionTime: [testCustomerBook addCustomerNamed: 
 		'John Lennon'.].
@@ -35,12 +35,12 @@ test01AddingCustomerShouldNotTakeMoreThan50Milliseconds
 	
 ! !
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/3/2020 21:18:51'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/8/2020 23:06:35'!
 test02RemovingCustomerShouldNotTakeMoreThan100Milliseconds
 
 	| executionTimeInMilliseconds paulMcCartney |
 	
-	self setUpTestCustomerBook.
+	self setUpNewCustomerBook.
 	paulMcCartney := 'Paul McCartney'.
 	
 	testCustomerBook addCustomerNamed: paulMcCartney.
@@ -52,10 +52,10 @@ test02RemovingCustomerShouldNotTakeMoreThan100Milliseconds
 	
 ! !
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/3/2020 21:18:55'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/8/2020 23:06:35'!
 test03CanNotAddACustomerWithEmptyName 
 			
-	self setUpTestCustomerBook.
+	self setUpNewCustomerBook.
 	
 	self execute: [ testCustomerBook addCustomerNamed: ''.]  
 		expectingError: Error   
@@ -65,12 +65,12 @@ test03CanNotAddACustomerWithEmptyName
 			self assert: testCustomerBook isEmpty ].
 ! !
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/3/2020 21:18:59'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/8/2020 23:06:35'!
 test04CanNotRemoveAnInvalidCustomer
 
 	| johnLennon |
 			
-	self setUpTestCustomerBook.
+	self setUpNewCustomerBook.
 	johnLennon := 'John Lennon'.
 	testCustomerBook addCustomerNamed: johnLennon.
 	
@@ -81,12 +81,12 @@ test04CanNotRemoveAnInvalidCustomer
 			self assert: (testCustomerBook includesCustomerNamed: johnLennon) ].
 ! !
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/3/2020 21:25:46'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/8/2020 23:06:35'!
 test05SuspendingACustomerShouldNotRemoveItFromCustomerBook
 
 	| paulMcCartney|
 	
-	self setUpTestCustomerBook.
+	self setUpNewCustomerBook.
 	paulMcCartney := 'Paul McCartney'.
 	
 	testCustomerBook addCustomerNamed: paulMcCartney.
@@ -99,12 +99,12 @@ test05SuspendingACustomerShouldNotRemoveItFromCustomerBook
 	
 ! !
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/3/2020 21:25:24'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/8/2020 23:06:35'!
 test06RemovingASuspendedCustomerShouldRemoveItFromCustomerBook
 
 	| paulMcCartney|
 	
-	self setUpTestCustomerBook.
+	self setUpNewCustomerBook.
 	paulMcCartney := 'Paul McCartney'.
 	
 	testCustomerBook addCustomerNamed: paulMcCartney.
@@ -118,12 +118,12 @@ test06RemovingASuspendedCustomerShouldRemoveItFromCustomerBook
 	
 ! !
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/3/2020 21:19:15'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/8/2020 23:06:35'!
 test07CanNotSuspendAnInvalidCustomer
 	
 	| johnLennon |
 			
-	self setUpTestCustomerBook.
+	self setUpNewCustomerBook.
 	johnLennon := 'John Lennon'.
 	testCustomerBook addCustomerNamed: johnLennon.
 	
@@ -134,12 +134,12 @@ test07CanNotSuspendAnInvalidCustomer
 			self assert: (testCustomerBook includesCustomerNamed: johnLennon) ].
 ! !
 
-!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/3/2020 21:19:21'!
+!CustomerBookTest methodsFor: 'tests' stamp: 'FR 11/8/2020 23:06:35'!
 test08CanNotSuspendAnAlreadySuspendedCustomer
 	
 	| johnLennon |
 			
-	self setUpTestCustomerBook.
+	self setUpNewCustomerBook.
 	johnLennon := 'John Lennon'.
 	testCustomerBook addCustomerNamed: johnLennon.
 	testCustomerBook suspendCustomerNamed: johnLennon.
@@ -153,14 +153,14 @@ test08CanNotSuspendAnAlreadySuspendedCustomer
 ! !
 
 
-!CustomerBookTest methodsFor: 'CambiarNombre' stamp: 'FR 11/3/2020 21:24:31'!
+!CustomerBookTest methodsFor: 'test helpers' stamp: 'FR 11/3/2020 21:24:31'!
 assertNumberOfActive: numberOfActive andNumberOfSuspended: numberOfSuspended
 	
 	self assert: numberOfActive equals: testCustomerBook numberOfActiveCustomers.
 	self assert: numberOfSuspended equals: testCustomerBook numberOfSuspendedCustomers.
 	self assert: numberOfActive  + numberOfSuspended equals: testCustomerBook numberOfCustomers.! !
 
-!CustomerBookTest methodsFor: 'CambiarNombre' stamp: 'FR 11/3/2020 20:55:18'!
+!CustomerBookTest methodsFor: 'test helpers' stamp: 'FR 11/3/2020 20:55:18'!
 codeExecutionTime: aBlockOfCode
 	|millisecondsBeforeExecution millisecondsAfterExecution|
 	
@@ -171,7 +171,7 @@ codeExecutionTime: aBlockOfCode
 	^millisecondsAfterExecution - millisecondsBeforeExecution.
 	! !
 
-!CustomerBookTest methodsFor: 'CambiarNombre' stamp: 'FR 11/3/2020 18:30:19'!
+!CustomerBookTest methodsFor: 'test helpers' stamp: 'FR 11/3/2020 18:30:19'!
 execute: aBlock expectingError: anError andTestErrorWith: assertBlock
 
 	[ aBlock  value. self fail ]
@@ -179,8 +179,8 @@ execute: aBlock expectingError: anError andTestErrorWith: assertBlock
 		do: [ :theError | assertBlock value: theError ]! !
 
 
-!CustomerBookTest methodsFor: 'tests setup' stamp: 'FR 11/3/2020 21:18:34'!
-setUpTestCustomerBook
+!CustomerBookTest methodsFor: 'tests setup' stamp: 'FR 11/8/2020 23:06:35'!
+setUpNewCustomerBook
 	
 	testCustomerBook := CustomerBook new.! !
 
@@ -207,25 +207,19 @@ addCustomerNamed: aName
 	
 	active add: aName ! !
 
-!CustomerBook methodsFor: 'customer management' stamp: 'NR 4/3/2019 10:14:26'!
+!CustomerBook methodsFor: 'customer management' stamp: 'FR 11/8/2020 23:10:59'!
 removeCustomerNamed: aName 
- 
-	1 to: active size do: 
-	[ :index |
-		aName = (active at: index)
-			ifTrue: [
-				active removeAt: index.
-				^ aName 
-			] 
-	].
+ 	
+	active do: [:each | 
+		aName = each
+		ifTrue: [active remove: each.
+			^aName]
+	]. 
 
-	1 to: suspended size do: 	
-	[ :index |
-		aName = (suspended at: index)
-			ifTrue: [
-				suspended removeAt: index.
-				^ aName 
-			] 
+	suspended do: [:each |
+		aName = each
+		ifTrue: [suspended remove: each.
+			^aName]
 	].
 	
 	^ NotFound signal.
