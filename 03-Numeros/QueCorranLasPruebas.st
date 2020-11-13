@@ -364,27 +364,27 @@ Numero subclass: #Entero
 	poolDictionaries: ''
 	category: 'Numeros-Parte2-Ejercicio'!
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'FR 11/12/2020 23:41:58'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'FR 11/13/2020 00:29:02'!
 * aMultiplier 
 	
-	^aMultiplier multiplyByInteger: self.
+	^aMultiplier multiplyInteger: self.
 	! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'FR 11/12/2020 23:36:19'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'FR 11/13/2020 00:29:32'!
 + anAdder 
 	
-	^anAdder sumAnInteger: self.
+	^anAdder sumInteger: self.
 ! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'FR 11/12/2020 23:47:18'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'FR 11/13/2020 00:29:19'!
 - aSubtrahend 
 	
-	^ aSubtrahend substractByAnInteger: self.! !
+	^ aSubtrahend substractInteger: self.! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'FR 11/12/2020 23:54:58'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'FR 11/13/2020 00:28:47'!
 / aDivisor 
 	
-	^ aDivisor divideByAnInteger: self.! !
+	^ aDivisor divideInteger: self.! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'HAW 9/24/2018 08:47:50'!
 fibonacci
@@ -459,24 +459,24 @@ greatestCommonDivisorWith: anEntero
 	^self class with: (value gcd: anEntero integerValue)! !
 
 
-!Entero methodsFor: 'private' stamp: 'FR 11/12/2020 23:52:55'!
-divideByAnInteger: anInteger
+!Entero methodsFor: 'private' stamp: 'FR 11/13/2020 00:28:47'!
+divideInteger: anInteger
 	
 	(self isOne ) ifTrue: [^anInteger ].
 	^Fraccion with: anInteger over: self.! !
 
-!Entero methodsFor: 'private' stamp: 'FR 11/12/2020 23:39:31'!
-multiplyByInteger: anInteger
+!Entero methodsFor: 'private' stamp: 'FR 11/13/2020 00:29:02'!
+multiplyInteger: anInteger
 	
 	^Entero with: value * anInteger integerValue.! !
 
-!Entero methodsFor: 'private' stamp: 'FR 11/12/2020 23:44:56'!
-substractByAnInteger: anInteger
+!Entero methodsFor: 'private' stamp: 'FR 11/13/2020 00:29:19'!
+substractInteger: anInteger
 
 	^Entero with: anInteger integerValue - value. ! !
 
-!Entero methodsFor: 'private' stamp: 'FR 11/12/2020 23:32:14'!
-sumAnInteger: anInteger
+!Entero methodsFor: 'private' stamp: 'FR 11/13/2020 00:29:32'!
+sumInteger: anInteger
 	
 	^Entero with: value + anInteger integerValue.! !
 
@@ -616,22 +616,22 @@ printOn: aStream
 		print: denominator ! !
 
 
-!Fraccion methodsFor: 'private' stamp: 'FR 11/12/2020 23:54:27'!
-divideByAnInteger: anInteger
+!Fraccion methodsFor: 'private' stamp: 'FR 11/13/2020 00:30:34'!
+divideInteger: anInteger
 
 	^Fraccion 
 		with: anInteger * denominator 
 		over: numerator.! !
 
-!Fraccion methodsFor: 'private' stamp: 'FR 11/12/2020 23:40:23'!
-multiplyByInteger: anInteger
+!Fraccion methodsFor: 'private' stamp: 'FR 11/13/2020 00:30:47'!
+multiplyInteger: anInteger
 	
 	^Fraccion
 		with: numerator * anInteger
 		over: denominator.! !
 
-!Fraccion methodsFor: 'private' stamp: 'FR 11/12/2020 23:46:33'!
-substractByAnInteger: anInteger
+!Fraccion methodsFor: 'private' stamp: 'FR 11/13/2020 00:31:09'!
+substractInteger: anInteger
 
 	|aNumerator aDenominator|
 	aNumerator := anInteger * denominator  - numerator.
@@ -639,8 +639,8 @@ substractByAnInteger: anInteger
 	
 	^ aNumerator / aDenominator.! !
 
-!Fraccion methodsFor: 'private' stamp: 'FR 11/12/2020 23:37:18'!
-sumAnInteger: anInteger
+!Fraccion methodsFor: 'private' stamp: 'FR 11/13/2020 00:31:32'!
+sumInteger: anInteger
 	
 	^Fraccion 
 		with: denominator  * anInteger + numerator 
