@@ -364,48 +364,27 @@ Numero subclass: #Entero
 	poolDictionaries: ''
 	category: 'Numeros-Parte2-Ejercicio'!
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'FR 11/12/2020 20:23:04'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'FR 11/12/2020 23:41:58'!
 * aMultiplier 
 	
-	(aMultiplier isKindOf: Entero) ifTrue: [^Entero with: value * aMultiplier integerValue ].
-	(aMultiplier isKindOf: Fraccion) ifTrue: [^Fraccion 
-		with: self * aMultiplier numerator 
-		over: aMultiplier denominator ].
+	^aMultiplier multiplyByInteger: self.
 	! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'FR 11/12/2020 21:13:00'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'FR 11/12/2020 23:36:19'!
 + anAdder 
 	
-	(anAdder isKindOf: Entero) ifTrue: [^Entero with: value + anAdder integerValue ].
-	(anAdder isKindOf: Fraccion) ifTrue: [^Fraccion 
-		with:self * anAdder denominator + anAdder numerator 
-		over: anAdder denominator].
+	^anAdder sumAnInteger: self.
 ! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'FR 11/12/2020 21:13:18'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'FR 11/12/2020 23:47:18'!
 - aSubtrahend 
 	
-	|aNumerator aDenominator|
-	
-	(aSubtrahend isKindOf: Entero) ifTrue: [^Entero with: (value - aSubtrahend integerValue )].
-	
-	(aSubtrahend isKindOf: Fraccion) ifTrue: [
-		aNumerator := self * aSubtrahend denominator  - aSubtrahend numerator. 
-		aDenominator := aSubtrahend denominator. 
-		
-		^ aNumerator / aDenominator].
-! !
+	^ aSubtrahend substractByAnInteger: self.! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'FR 11/12/2020 21:13:12'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'FR 11/12/2020 23:54:58'!
 / aDivisor 
 	
-	(aDivisor isKindOf: Entero) ifTrue: [
-		(aDivisor integerValue = 1) ifTrue: [^Entero with: value / aDivisor integerValue ].
-		^Fraccion with: self over: aDivisor.].
-	
-	(aDivisor isKindOf: Fraccion) ifTrue: [^Fraccion
-		with: self * aDivisor denominator 
-		over: aDivisor numerator ].! !
+	^ aDivisor divideByAnInteger: self.! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'HAW 9/24/2018 08:47:50'!
 fibonacci
@@ -478,6 +457,28 @@ isZero
 greatestCommonDivisorWith: anEntero 
 	
 	^self class with: (value gcd: anEntero integerValue)! !
+
+
+!Entero methodsFor: 'private' stamp: 'FR 11/12/2020 23:52:55'!
+divideByAnInteger: anInteger
+	
+	(self isOne ) ifTrue: [^anInteger ].
+	^Fraccion with: anInteger over: self.! !
+
+!Entero methodsFor: 'private' stamp: 'FR 11/12/2020 23:39:31'!
+multiplyByInteger: anInteger
+	
+	^Entero with: value * anInteger integerValue.! !
+
+!Entero methodsFor: 'private' stamp: 'FR 11/12/2020 23:44:56'!
+substractByAnInteger: anInteger
+
+	^Entero with: anInteger integerValue - value. ! !
+
+!Entero methodsFor: 'private' stamp: 'FR 11/12/2020 23:32:14'!
+sumAnInteger: anInteger
+	
+	^Entero with: value + anInteger integerValue.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -613,6 +614,37 @@ printOn: aStream
 		print: numerator;
 		nextPut: $/;
 		print: denominator ! !
+
+
+!Fraccion methodsFor: 'private' stamp: 'FR 11/12/2020 23:54:27'!
+divideByAnInteger: anInteger
+
+	^Fraccion 
+		with: anInteger * denominator 
+		over: numerator.! !
+
+!Fraccion methodsFor: 'private' stamp: 'FR 11/12/2020 23:40:23'!
+multiplyByInteger: anInteger
+	
+	^Fraccion
+		with: numerator * anInteger
+		over: denominator.! !
+
+!Fraccion methodsFor: 'private' stamp: 'FR 11/12/2020 23:46:33'!
+substractByAnInteger: anInteger
+
+	|aNumerator aDenominator|
+	aNumerator := anInteger * denominator  - numerator.
+	aDenominator  := denominator. 
+	
+	^ aNumerator / aDenominator.! !
+
+!Fraccion methodsFor: 'private' stamp: 'FR 11/12/2020 23:37:18'!
+sumAnInteger: anInteger
+	
+	^Fraccion 
+		with: denominator  * anInteger + numerator 
+		over: denominator.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
