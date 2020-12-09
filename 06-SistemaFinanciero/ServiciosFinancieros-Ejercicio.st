@@ -189,6 +189,75 @@ test06ReceptiveAccountDoNotKnowNotRegisteredTransactions
 ! !
 
 
+!classDefinition: #WireTransferTest category: 'ServiciosFinancieros-Ejercicio'!
+TestCase subclass: #WireTransferTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'ServiciosFinancieros-Ejercicio'!
+
+!WireTransferTest methodsFor: 'tests' stamp: 'mlm 12/9/2020 01:46:46'!
+test01WireTransferRecipientAccountHasCorrectBalance
+
+	| wireTransfer senderAccount recipientAccount |
+	senderAccount := ReceptiveAccount new.
+	recipientAccount := ReceptiveAccount  new.
+	wireTransfer := WireTransfer from: senderAccount to: recipientAccount for: 10 * peso.
+	
+	self assert: recipientAccount balance equals: 10 * peso.
+! !
+
+!WireTransferTest methodsFor: 'tests' stamp: 'mlm 12/9/2020 01:47:06'!
+test02WireTransferSenderAccountHasCorrectBalance
+
+	| wireTransfer senderAccount recipientAccount |
+	senderAccount := ReceptiveAccount new.
+	recipientAccount := ReceptiveAccount  new.
+	wireTransfer := WireTransfer from: senderAccount to: recipientAccount for: 10 * peso.
+	
+	self assert: senderAccount balance equals: -10 * peso.
+! !
+
+!WireTransferTest methodsFor: 'tests' stamp: 'mlm 12/9/2020 01:48:18'!
+test03WireTransferHasValue
+
+	| wireTransfer senderAccount recipientAccount |
+	senderAccount := ReceptiveAccount new.
+	recipientAccount := ReceptiveAccount  new.
+	wireTransfer := WireTransfer from: senderAccount to: recipientAccount for: 100 * peso.
+	
+	self assert: wireTransfer value equals: 100 * peso.
+! !
+
+!WireTransferTest methodsFor: 'tests' stamp: 'mlm 12/9/2020 03:30:05'!
+test04WireTransferSenderKnowsHisRecipient
+
+	| wireTransfer senderAccount recipientAccount wireTransferSender|
+	senderAccount := ReceptiveAccount new.
+	recipientAccount := ReceptiveAccount  new.
+	wireTransfer := WireTransfer from: senderAccount to: recipientAccount for: 100 * peso.
+	
+	wireTransferSender := 	wireTransfer sender.
+	
+	self assert: wireTransferSender counterPart equals: recipientAccount.
+	self assert: wireTransferSender counterPart balance equals: 100 * peso.
+! !
+
+!WireTransferTest methodsFor: 'tests' stamp: 'mlm 12/9/2020 03:30:45'!
+test05WireTransferRecipientKnowsHisSender
+
+	| wireTransfer senderAccount recipientAccount wireTransferRecipient|
+	senderAccount := ReceptiveAccount new.
+	recipientAccount := ReceptiveAccount  new.
+	wireTransfer := WireTransfer from: senderAccount to: recipientAccount for: 100 * peso.
+	
+	wireTransferRecipient := 	wireTransfer recipient.
+	
+	self assert: wireTransferRecipient counterPart equals: senderAccount.
+	self assert: wireTransferRecipient counterPart balance equals: -100 * peso.
+! !
+
+
 !classDefinition: #AccountTransaction category: 'ServiciosFinancieros-Ejercicio'!
 Object subclass: #AccountTransaction
 	instanceVariableNames: ''
@@ -433,3 +502,77 @@ addedTo: aPortfolio
 isComposedBy: anAccount
 
 	^self = anAccount ! !
+
+
+!classDefinition: #WireTransfer category: 'ServiciosFinancieros-Ejercicio'!
+Object subclass: #WireTransfer
+	instanceVariableNames: 'sender recipient value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'ServiciosFinancieros-Ejercicio'!
+
+!WireTransfer methodsFor: 'initialization' stamp: 'mlm 12/9/2020 03:24:46'!
+initializeFrom: senderAccount to: recipientAccount for: amount
+	sender := WireTransferPart from: senderAccount .
+	sender setCounterPart: recipientAccount .
+	recipient :=  WireTransferPart from: recipientAccount .
+	recipient setCounterPart: senderAccount .
+	value := amount.
+	Withdraw register: amount on: senderAccount .
+	Deposit register: amount on: recipientAccount .! !
+
+
+!WireTransfer methodsFor: 'accesing' stamp: 'mlm 12/9/2020 02:11:19'!
+recipient
+	^recipient! !
+
+!WireTransfer methodsFor: 'accesing' stamp: 'mlm 12/9/2020 02:11:10'!
+sender
+	^sender! !
+
+!WireTransfer methodsFor: 'accesing' stamp: 'mlm 12/9/2020 01:49:33'!
+value
+	^value! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'WireTransfer class' category: 'ServiciosFinancieros-Ejercicio'!
+WireTransfer class
+	instanceVariableNames: ''!
+
+!WireTransfer class methodsFor: 'instance creation' stamp: 'mlm 12/9/2020 01:40:49'!
+from: senderAccount to: recipientAccount for: amount
+	^self new initializeFrom: senderAccount to: recipientAccount for: amount
+	! !
+
+
+!classDefinition: #WireTransferPart category: 'ServiciosFinancieros-Ejercicio'!
+Object subclass: #WireTransferPart
+	instanceVariableNames: 'receptiveAccount counterPart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'ServiciosFinancieros-Ejercicio'!
+
+!WireTransferPart methodsFor: 'setting' stamp: 'mlm 12/9/2020 03:21:51'!
+setCounterPart: aCounterPart
+	counterPart := aCounterPart .! !
+
+
+!WireTransferPart methodsFor: 'accesing' stamp: 'mlm 12/9/2020 03:22:48'!
+counterPart
+	^counterPart ! !
+
+
+!WireTransferPart methodsFor: 'initialization' stamp: 'mlm 12/9/2020 03:20:36'!
+initializeFrom: aReceptiveAccount 
+	receptiveAccount  := aReceptiveAccount.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'WireTransferPart class' category: 'ServiciosFinancieros-Ejercicio'!
+WireTransferPart class
+	instanceVariableNames: ''!
+
+!WireTransferPart class methodsFor: 'instance creation' stamp: 'mlm 12/9/2020 03:18:46'!
+from: aReceptiveAccount
+	^self new initializeFrom: aReceptiveAccount ! !
