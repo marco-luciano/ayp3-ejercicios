@@ -1,9 +1,116 @@
-!classDefinition: #PortfolioTest category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: #AccountSummaryTest category: 'ServiciosFinancieros2'!
+TestCase subclass: #AccountSummaryTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'ServiciosFinancieros2'!
+
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 17:01:53'!
+test01EmptyAccountSummary
+
+	|anAccount anAccountSummary|
+	
+	anAccount := ReceptiveAccount new.
+	anAccountSummary := AccountSummary for: anAccount.
+	
+	self assert: anAccountSummary getReport = 'Balance = 0 pesos'.! !
+
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 17:02:07'!
+test02AccountSummaryOneDeposit
+	
+	|anAccount anAccountSummary|
+	
+	anAccount := ReceptiveAccount new.
+	anAccount register: (Deposit for: 100 * peso).
+	anAccountSummary := AccountSummary for: anAccount.
+	
+	self assert: anAccountSummary getReport  = ('Depósito por 100 pesos' , String crString, 'Balance = 100 pesos').
+	
+	! !
+
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 17:02:23'!
+test03AccountSummaryOneWithdraw
+	
+	|anAccount anAccountSummary|
+	
+	anAccount := ReceptiveAccount new.
+	anAccount register: (Withdraw for: 50 * peso).
+	anAccountSummary := AccountSummary for: anAccount.
+	
+	self assert: anAccountSummary getReport  = ('Extracción por 50 pesos', String crString, 'Balance = -50 pesos').
+	
+	! !
+
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 17:02:41'!
+test04AccountSummaryOneTransactionWithdraw
+	
+	|sourceAccount destinationAccount anAccountSummary|
+	
+	sourceAccount := ReceptiveAccount new.
+	destinationAccount := ReceptiveAccount new.
+	
+	Transfer amount: (20 * peso) from: sourceAccount  to: destinationAccount.
+	anAccountSummary := AccountSummary for: sourceAccount .
+	
+	self assert: anAccountSummary getReport  = ('Salida por transferencia de 20 pesos' , String crString, 'Balance = -20 pesos').
+	
+	! !
+
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 17:02:57'!
+test05AccountSummaryOneTransactionDeposit
+	
+	|sourceAccount destinationAccount anAccountSummary|
+	
+	sourceAccount := ReceptiveAccount new.
+	destinationAccount := ReceptiveAccount new.
+	
+	Transfer amount: (20 * peso) from: sourceAccount  to: destinationAccount.
+	anAccountSummary := AccountSummary for: destinationAccount.
+	
+	self assert: anAccountSummary getReport  = ('Entrada por transferencia de 20 pesos' , String crString, 'Balance = 20 pesos').
+	
+	! !
+
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 17:07:45'!
+test06AccountSummaryDepositAndWithdraw
+	
+	|anAccount anAccountSummary|
+	
+	anAccount := ReceptiveAccount new.
+	anAccount register: (Deposit for: 30 * peso).
+	anAccount register: (Withdraw for: 50 * peso).
+	
+	anAccountSummary := AccountSummary for: anAccount .
+	
+	self assert: anAccountSummary getReport  = ('Depósito por 30 pesos', String crString, 'Extracción por 50 pesos', String crString, 'Balance = -20 pesos').
+	
+	! !
+
+!AccountSummaryTest methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 17:18:25'!
+test07AccountSummaryTransactionDepositAndTransactionWithdraw
+	
+	|account1 account2 accountSummaryForAccount1 accountSummaryForAccount2|
+	
+	account1 := ReceptiveAccount new.
+	account2  := ReceptiveAccount new.
+	
+	Transfer amount: 60 *peso  from: account1 to: account2.
+	Transfer amount: 40 *peso  from: account2 to: account1.
+	
+	accountSummaryForAccount1 := AccountSummary for: account1.
+	accountSummaryForAccount2 := AccountSummary for: account2.
+		
+	self assert: accountSummaryForAccount1 getReport = ('Salida por transferencia de 60 pesos' , String crString, 'Entrada por transferencia de 40 pesos', String crString, 'Balance = -20 pesos').
+	
+	self assert: accountSummaryForAccount2 getReport = ('Entrada por transferencia de 60 pesos' , String crString, 'Salida por transferencia de 40 pesos', String crString, 'Balance = 20 pesos')! !
+
+
+!classDefinition: #PortfolioTest category: 'ServiciosFinancieros2'!
 TestCase subclass: #PortfolioTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'ServiciosFinancieros-Solucion-Portfolio'!
+	category: 'ServiciosFinancieros2'!
 
 !PortfolioTest methodsFor: 'tests' stamp: 'LL 9/20/2020 17:09:32'!
 test01PortfolioCanNotIncludeTheSameAccountMoreThanOnce
@@ -174,12 +281,12 @@ test12PortfolioLooksForRegisteredTransactionsRecursively
 	self assert: (composedPortfolio hasRegistered: composedPortfolioAccountWithdraw)! !
 
 
-!classDefinition: #ReceptiveAccountTest category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: #ReceptiveAccountTest category: 'ServiciosFinancieros2'!
 TestCase subclass: #ReceptiveAccountTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'ServiciosFinancieros-Solucion-Portfolio'!
+	category: 'ServiciosFinancieros2'!
 
 !ReceptiveAccountTest methodsFor: 'tests' stamp: 'LL 9/20/2020 17:01:58'!
 test01ReceptiveAccountHaveZeroAsBalanceWhenCreated 
@@ -252,12 +359,12 @@ test06ReceptiveAccountDoNotKnowNotRegisteredTransactions
 ! !
 
 
-!classDefinition: #TransferTest category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: #TransferTest category: 'ServiciosFinancieros2'!
 TestCase subclass: #TransferTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'ServiciosFinancieros-Solucion-Portfolio'!
+	category: 'ServiciosFinancieros2'!
 
 !TransferTest methodsFor: 'as yet unclassified' stamp: 'LL 9/20/2020 21:07:03'!
 test01ATransferDecreasesBalanceFromOriginAccountAndIncreasesItForDestinationAccount
@@ -356,12 +463,12 @@ test06CannotTransferAZeroAmount
 ! !
 
 
-!classDefinition: #Account category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: #Account category: 'ServiciosFinancieros2'!
 Object subclass: #Account
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'ServiciosFinancieros-Solucion-Portfolio'!
+	category: 'ServiciosFinancieros2'!
 
 !Account methodsFor: 'main protocol' stamp: 'HAW 5/25/2019 12:23:40'!
 balance
@@ -385,12 +492,12 @@ isComposedBy: anAccount
 	self subclassResponsibility ! !
 
 
-!classDefinition: #Portfolio category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: #Portfolio category: 'ServiciosFinancieros2'!
 Account subclass: #Portfolio
 	instanceVariableNames: 'accounts parents'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'ServiciosFinancieros-Solucion-Portfolio'!
+	category: 'ServiciosFinancieros2'!
 
 !Portfolio methodsFor: 'initialization' stamp: 'HAW 5/25/2019 12:03:18'!
 initialize
@@ -480,7 +587,7 @@ signalCanNotAddAccount
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Portfolio class' category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: 'Portfolio class' category: 'ServiciosFinancieros2'!
 Portfolio class
 	instanceVariableNames: ''!
 
@@ -505,12 +612,12 @@ with: anAccount with: anotherAccount
 		yourself! !
 
 
-!classDefinition: #ReceptiveAccount category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: #ReceptiveAccount category: 'ServiciosFinancieros2'!
 Account subclass: #ReceptiveAccount
 	instanceVariableNames: 'transactions'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'ServiciosFinancieros-Solucion-Portfolio'!
+	category: 'ServiciosFinancieros2'!
 
 !ReceptiveAccount methodsFor: 'initialization' stamp: 'LL 9/20/2020 17:01:23'!
 initialize
@@ -548,13 +655,83 @@ isComposedBy: anAccount
 
 	^self = anAccount ! !
 
+
+!ReceptiveAccount methodsFor: 'transactions' stamp: 'FR 12/15/2020 14:24:16'!
+getTransactions
+
+	^transactions.! !
+
 
-!classDefinition: #AccountTransaction category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: #AccountSummary category: 'ServiciosFinancieros2'!
+Object subclass: #AccountSummary
+	instanceVariableNames: 'account accountSummaryPrinter'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'ServiciosFinancieros2'!
+
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 17:04:21'!
+getReport
+	|reportString|
+	
+	reportString := ''.
+	account getTransactions do: [:transaction |
+		reportString := reportString , (transaction formatedBy: accountSummaryPrinter) , String crString.
+	].
+	reportString := reportString , 'Balance = ', account balance printString.
+	^reportString.! !
+
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 14:52:19'!
+initializeFor: anAccount
+
+	account := anAccount.
+	accountSummaryPrinter := AccountSummaryPrinter new.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'AccountSummary class' category: 'ServiciosFinancieros2'!
+AccountSummary class
+	instanceVariableNames: ''!
+
+!AccountSummary class methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 14:18:04'!
+for: anAccount
+	
+	^AccountSummary new initializeFor: anAccount.! !
+
+
+!classDefinition: #AccountSummaryPrinter category: 'ServiciosFinancieros2'!
+Object subclass: #AccountSummaryPrinter
+	instanceVariableNames: 'account'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'ServiciosFinancieros2'!
+
+!AccountSummaryPrinter methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 14:58:04'!
+formatADeposit: aDeposit
+
+	^'Depósito por ' , aDeposit value printString.! !
+
+!AccountSummaryPrinter methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 14:58:09'!
+formatATransferDeposit: aTransferDeposit
+
+	^'Entrada por transferencia de ' , aTransferDeposit value printString.! !
+
+!AccountSummaryPrinter methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 14:58:13'!
+formatATransferWithdraw: aTransferWithdraw
+
+	^'Salida por transferencia de ' , aTransferWithdraw value printString.! !
+
+!AccountSummaryPrinter methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 14:58:19'!
+formatAWithdraw: aWithdraw
+
+	^'Extracción por ' , aWithdraw value printString.! !
+
+
+!classDefinition: #AccountTransaction category: 'ServiciosFinancieros2'!
 Object subclass: #AccountTransaction
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'ServiciosFinancieros-Solucion-Portfolio'!
+	category: 'ServiciosFinancieros2'!
 
 !AccountTransaction methodsFor: 'value' stamp: 'HernanWilkinson 9/12/2011 12:25'!
 value 
@@ -567,9 +744,15 @@ affectBalance: aBalance
 
 	self subclassResponsibility ! !
 
+
+!AccountTransaction methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 14:53:27'!
+formatedBy: aPrinter
+
+	^self childResponsibility.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'AccountTransaction class' category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: 'AccountTransaction class' category: 'ServiciosFinancieros2'!
 AccountTransaction class
 	instanceVariableNames: ''!
 
@@ -584,12 +767,12 @@ register: aValue on: account
 	^ transaction! !
 
 
-!classDefinition: #Deposit category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: #Deposit category: 'ServiciosFinancieros2'!
 AccountTransaction subclass: #Deposit
 	instanceVariableNames: 'value'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'ServiciosFinancieros-Solucion-Portfolio'!
+	category: 'ServiciosFinancieros2'!
 
 !Deposit methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:45'!
 initializeFor: aValue
@@ -608,9 +791,15 @@ affectBalance: aBalance
 
 	^aBalance + value ! !
 
+
+!Deposit methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 14:55:20'!
+formatedBy: aPrinter
+
+	^aPrinter formatADeposit: self.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Deposit class' category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: 'Deposit class' category: 'ServiciosFinancieros2'!
 Deposit class
 	instanceVariableNames: ''!
 
@@ -620,12 +809,12 @@ for: aValue
 	^ self new initializeFor: aValue ! !
 
 
-!classDefinition: #TransferLeg category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: #TransferLeg category: 'ServiciosFinancieros2'!
 AccountTransaction subclass: #TransferLeg
 	instanceVariableNames: 'transfer'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'ServiciosFinancieros-Solucion-Portfolio'!
+	category: 'ServiciosFinancieros2'!
 
 !TransferLeg methodsFor: 'initialization' stamp: 'LL 9/20/2020 22:28:14'!
 initializeWith: aTransfer
@@ -640,7 +829,7 @@ value
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'TransferLeg class' category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: 'TransferLeg class' category: 'ServiciosFinancieros2'!
 TransferLeg class
 	instanceVariableNames: ''!
 
@@ -655,12 +844,12 @@ of: aTransfer on: anAccount
 	^transaction! !
 
 
-!classDefinition: #TransferDepositLeg category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: #TransferDepositLeg category: 'ServiciosFinancieros2'!
 TransferLeg subclass: #TransferDepositLeg
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'ServiciosFinancieros-Solucion-Portfolio'!
+	category: 'ServiciosFinancieros2'!
 
 !TransferDepositLeg methodsFor: 'balance' stamp: 'LL 9/20/2020 22:27:49'!
 affectBalance: aBalance
@@ -673,13 +862,19 @@ withdrawLeg
 
 	^transfer withdrawLeg! !
 
+
+!TransferDepositLeg methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 14:55:38'!
+formatedBy: aPrinter
+
+	^aPrinter formatATransferDeposit: self.! !
+
 
-!classDefinition: #TransferWithdrawLeg category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: #TransferWithdrawLeg category: 'ServiciosFinancieros2'!
 TransferLeg subclass: #TransferWithdrawLeg
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'ServiciosFinancieros-Solucion-Portfolio'!
+	category: 'ServiciosFinancieros2'!
 
 !TransferWithdrawLeg methodsFor: 'balance' stamp: 'LL 9/20/2020 22:27:55'!
 affectBalance: aBalance
@@ -692,13 +887,19 @@ depositLeg
 
 	^transfer depositLeg! !
 
+
+!TransferWithdrawLeg methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 14:55:50'!
+formatedBy: aPrinter
+
+	^aPrinter formatATransferWithdraw: self.! !
+
 
-!classDefinition: #Withdraw category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: #Withdraw category: 'ServiciosFinancieros2'!
 AccountTransaction subclass: #Withdraw
 	instanceVariableNames: 'value'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'ServiciosFinancieros-Solucion-Portfolio'!
+	category: 'ServiciosFinancieros2'!
 
 !Withdraw methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:46'!
 initializeFor: aValue
@@ -717,9 +918,15 @@ affectBalance: aBalance
 
 	^aBalance - value! !
 
+
+!Withdraw methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 14:56:04'!
+formatedBy: aPrinter
+
+	^aPrinter formatAWithdraw: self.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Withdraw class' category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: 'Withdraw class' category: 'ServiciosFinancieros2'!
 Withdraw class
 	instanceVariableNames: ''!
 
@@ -729,12 +936,12 @@ for: aValue
 	^ self new initializeFor: aValue ! !
 
 
-!classDefinition: #Transfer category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: #Transfer category: 'ServiciosFinancieros2'!
 Object subclass: #Transfer
 	instanceVariableNames: 'value withdrawLeg depositLeg'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'ServiciosFinancieros-Solucion-Portfolio'!
+	category: 'ServiciosFinancieros2'!
 
 !Transfer methodsFor: 'accessing' stamp: 'LL 9/20/2020 22:39:46'!
 depositLeg
@@ -762,7 +969,7 @@ initializeWith: aValue withdrawLeg: aWithdraw depositLeg: aDeposit
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Transfer class' category: 'ServiciosFinancieros-Solucion-Portfolio'!
+!classDefinition: 'Transfer class' category: 'ServiciosFinancieros2'!
 Transfer class
 	instanceVariableNames: ''!
 
