@@ -669,13 +669,12 @@ Object subclass: #AccountSummary
 	poolDictionaries: ''
 	category: 'ServiciosFinancieros2'!
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 17:04:21'!
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'FR 12/15/2020 17:24:35'!
 getReport
 	|reportString|
 	
-	reportString := ''.
-	account getTransactions do: [:transaction |
-		reportString := reportString , (transaction formatedBy: accountSummaryPrinter) , String crString.
+	reportString := account getTransactions inject: '' into: [:lastString :transaction |
+		lastString , (transaction formatedBy: accountSummaryPrinter) , String crString.
 	].
 	reportString := reportString , 'Balance = ', account balance printString.
 	^reportString.! !
