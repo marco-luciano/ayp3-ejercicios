@@ -359,6 +359,88 @@ test06ReceptiveAccountDoNotKnowNotRegisteredTransactions
 ! !
 
 
+!classDefinition: #TransferNetTest category: 'ServiciosFinancieros2'!
+TestCase subclass: #TransferNetTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'ServiciosFinancieros2'!
+
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'mlm 12/16/2020 03:37:09'!
+test01transferNetOfWithdrawAndExtractionEqualsZero
+	| receptiveAccount transferNet |
+	receptiveAccount := ReceptiveAccount new.
+	
+	Deposit register: 10 * peso on: receptiveAccount.
+	Withdraw register: 5 * peso on: receptiveAccount.
+	
+	transferNet := TransferNet for: receptiveAccount.
+	self assert: (transferNet getReport) equals: 0.
+	! !
+
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'mlm 12/16/2020 03:37:00'!
+test02transferNetOfTransferDeposit
+	|sourceAccount destinationAccount transferNet |
+	
+	sourceAccount := ReceptiveAccount new.
+	destinationAccount := ReceptiveAccount new.
+	
+	Transfer amount: (20 * peso) from: sourceAccount  to: destinationAccount.
+	transferNet := TransferNet for: destinationAccount.
+	
+	self assert: (transferNet getReport) equals: 20
+	
+	! !
+
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'mlm 12/16/2020 03:36:36'!
+test03transferNetOfTransferWithdraw
+	|sourceAccount destinationAccount transferNet |
+	
+	sourceAccount := ReceptiveAccount new.
+	destinationAccount := ReceptiveAccount new.
+	
+	Transfer amount: (20 * peso) from: sourceAccount  to: destinationAccount.
+	transferNet := TransferNet for: sourceAccount.
+	
+	self assert: (transferNet getReport) equals: -20
+	! !
+
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'mlm 12/16/2020 03:41:34'!
+test04transferNetOfTransferDepositAndWithdraw
+	|account1 account2 transferNet |
+	
+	account1 := ReceptiveAccount new.
+	account2 := ReceptiveAccount new.
+	
+	Transfer amount: (20 * peso) from: account1  to: account2.
+	Transfer amount: (800 * peso) from: account1  to: account2.
+	Transfer amount: (50 * peso) from: account2  to: account1.
+	
+	transferNet := TransferNet for: account2.
+	
+	self assert: (transferNet getReport) equals: 770
+	! !
+
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'mlm 12/16/2020 03:43:14'!
+test05transferNetOfDepositWithdrawTransferDepositAndTransferWithdraw
+	|account1 account2 transferNet |
+	
+	account1 := ReceptiveAccount new.
+	account2 := ReceptiveAccount new.
+	
+	Deposit register: 10 * peso on: account2.
+	Withdraw register: 5 * peso on: account2.
+	
+	Transfer amount: (20 * peso) from: account1  to: account2.
+	Transfer amount: (800 * peso) from: account1  to: account2.
+	Transfer amount: (50 * peso) from: account2  to: account1.
+	
+	transferNet := TransferNet for: account2.
+	
+	self assert: (transferNet getReport) equals: 770
+	! !
+
+
 !classDefinition: #TransferTest category: 'ServiciosFinancieros2'!
 TestCase subclass: #TransferTest
 	instanceVariableNames: ''
@@ -506,17 +588,6 @@ initialize
 	parents := OrderedCollection new.! !
 
 
-!Portfolio methodsFor: 'main protocol' stamp: 'LL 9/21/2020 01:35:22'!
-balance
-	
-	^accounts sum: [ :anAccount | anAccount balance ] ifEmpty: [ 0 * peso ]! !
-
-!Portfolio methodsFor: 'main protocol' stamp: 'HAW 5/25/2019 11:28:29'!
-hasRegistered: aTransaction
-
-	^accounts anySatisfy: [ :anAccount | anAccount hasRegistered: aTransaction ]! !
-
-
 !Portfolio methodsFor: 'accounts management' stamp: 'HAW 5/25/2019 11:49:06'!
 accountsSize
 	
@@ -540,6 +611,8 @@ hasAccount: anAccount
 hasAccounts
 	
 	^accounts isEmpty ! !
+
+
 
 
 !Portfolio methodsFor: 'composition - private' stamp: 'HAW 5/25/2019 12:17:31'!
@@ -584,6 +657,17 @@ rootParents
 signalCanNotAddAccount
 	
 	self error: self class canNotAddAccountErrorMessage! !
+
+
+!Portfolio methodsFor: 'main protocol' stamp: 'LL 9/21/2020 01:35:22'!
+balance
+	
+	^accounts sum: [ :anAccount | anAccount balance ] ifEmpty: [ 0 * peso ]! !
+
+!Portfolio methodsFor: 'main protocol' stamp: 'HAW 5/25/2019 11:28:29'!
+hasRegistered: aTransaction
+
+	^accounts anySatisfy: [ :anAccount | anAccount hasRegistered: aTransaction ]! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -1026,3 +1110,40 @@ signalCannotTransferToOrigin
 signalCannotTransferZero
 
 	self error: self cannotTransferZeroErrorDescription! !
+
+
+!classDefinition: #TransferNet category: 'ServiciosFinancieros2'!
+Object subclass: #TransferNet
+	instanceVariableNames: 'account'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'ServiciosFinancieros2'!
+
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'mlm 12/16/2020 03:35:09'!
+getReport
+	| transactions depositLegs depositLegsValues withdrawLegs withdrawLegsValues result |
+	transactions := account getTransactions.
+	
+	depositLegs := transactions select: [ :transaction | transaction isKindOf: TransferDepositLeg].
+	depositLegsValues := depositLegs inject: 0 into: [:sum :current | sum + current value amount].
+	
+	withdrawLegs := transactions select: [ :transaction | transaction isKindOf: TransferWithdrawLeg].
+	withdrawLegsValues := withdrawLegs inject: 0 into: [:sum :current | sum + current value amount].
+	
+	result := depositLegsValues - withdrawLegsValues.
+	
+	^result! !
+
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'mlm 12/16/2020 02:19:33'!
+initializeFor: aReceptiveAccount
+	account := aReceptiveAccount! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TransferNet class' category: 'ServiciosFinancieros2'!
+TransferNet class
+	instanceVariableNames: ''!
+
+!TransferNet class methodsFor: 'as yet unclassified' stamp: 'mlm 12/16/2020 02:17:44'!
+for: aReceptiveAccount
+	^self new initializeFor: aReceptiveAccount! !
