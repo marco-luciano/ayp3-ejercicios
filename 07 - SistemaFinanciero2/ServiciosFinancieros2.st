@@ -366,7 +366,16 @@ TestCase subclass: #TransferNetTest
 	poolDictionaries: ''
 	category: 'ServiciosFinancieros2'!
 
-!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'mlm 12/16/2020 03:37:09'!
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'mlm 12/17/2020 04:21:20'!
+test00transferNetOfNewReceptiveAccountEqualsZero
+	| receptiveAccount transferNet |
+	receptiveAccount := ReceptiveAccount new.
+	
+	transferNet := TransferNet for: receptiveAccount.
+	self assert: (transferNet getReport) equals: 0 * peso.
+	! !
+
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'mlm 12/17/2020 04:16:42'!
 test01transferNetOfWithdrawAndExtractionEqualsZero
 	| receptiveAccount transferNet |
 	receptiveAccount := ReceptiveAccount new.
@@ -375,10 +384,10 @@ test01transferNetOfWithdrawAndExtractionEqualsZero
 	Withdraw register: 5 * peso on: receptiveAccount.
 	
 	transferNet := TransferNet for: receptiveAccount.
-	self assert: (transferNet getReport) equals: 0.
+	self assert: (transferNet getReport) equals: 0 * peso.
 	! !
 
-!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'mlm 12/16/2020 03:37:00'!
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'mlm 12/17/2020 04:16:34'!
 test02transferNetOfTransferDeposit
 	|sourceAccount destinationAccount transferNet |
 	
@@ -388,11 +397,11 @@ test02transferNetOfTransferDeposit
 	Transfer amount: (20 * peso) from: sourceAccount  to: destinationAccount.
 	transferNet := TransferNet for: destinationAccount.
 	
-	self assert: (transferNet getReport) equals: 20
+	self assert: (transferNet getReport) equals: 20 * peso
 	
 	! !
 
-!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'mlm 12/16/2020 03:36:36'!
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'mlm 12/17/2020 04:16:25'!
 test03transferNetOfTransferWithdraw
 	|sourceAccount destinationAccount transferNet |
 	
@@ -402,10 +411,10 @@ test03transferNetOfTransferWithdraw
 	Transfer amount: (20 * peso) from: sourceAccount  to: destinationAccount.
 	transferNet := TransferNet for: sourceAccount.
 	
-	self assert: (transferNet getReport) equals: -20
+	self assert: (transferNet getReport) equals: -20 * peso
 	! !
 
-!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'mlm 12/16/2020 03:41:34'!
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'mlm 12/17/2020 04:16:19'!
 test04transferNetOfTransferDepositAndWithdraw
 	|account1 account2 transferNet |
 	
@@ -418,10 +427,10 @@ test04transferNetOfTransferDepositAndWithdraw
 	
 	transferNet := TransferNet for: account2.
 	
-	self assert: (transferNet getReport) equals: 770
+	self assert: (transferNet getReport) equals: 770 * peso
 	! !
 
-!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'mlm 12/16/2020 03:43:14'!
+!TransferNetTest methodsFor: 'as yet unclassified' stamp: 'mlm 12/17/2020 04:16:12'!
 test05transferNetOfDepositWithdrawTransferDepositAndTransferWithdraw
 	|account1 account2 transferNet |
 	
@@ -437,7 +446,7 @@ test05transferNetOfDepositWithdrawTransferDepositAndTransferWithdraw
 	
 	transferNet := TransferNet for: account2.
 	
-	self assert: (transferNet getReport) equals: 770
+	self assert: (transferNet getReport) equals: 770 * peso.
 	! !
 
 
@@ -1119,18 +1128,12 @@ Object subclass: #TransferNet
 	poolDictionaries: ''
 	category: 'ServiciosFinancieros2'!
 
-!TransferNet methodsFor: 'as yet unclassified' stamp: 'mlm 12/16/2020 03:35:09'!
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'mlm 12/17/2020 04:18:58'!
 getReport
-	| transactions depositLegs depositLegsValues withdrawLegs withdrawLegsValues result |
-	transactions := account getTransactions.
-	
-	depositLegs := transactions select: [ :transaction | transaction isKindOf: TransferDepositLeg].
-	depositLegsValues := depositLegs inject: 0 into: [:sum :current | sum + current value amount].
-	
-	withdrawLegs := transactions select: [ :transaction | transaction isKindOf: TransferWithdrawLeg].
-	withdrawLegsValues := withdrawLegs inject: 0 into: [:sum :current | sum + current value amount].
-	
-	result := depositLegsValues - withdrawLegsValues.
+	| transactions result |
+
+	transactions := account getTransactions select: [ :transaction | transaction isKindOf: TransferLeg].
+	result := transactions inject: 0 into: [:sum :current | current affectBalance: sum].
 	
 	^result! !
 
