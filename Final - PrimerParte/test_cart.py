@@ -38,6 +38,14 @@ class TestCart(unittest.TestCase):
 
         self.assertEqual(0, len(testing_cart.get_items()))
     
+    def test04_cart_timer_should_update_after_action(self):
+        testing_cart = Cart()
+
+        testing_cart._timer._last_updated_time = datetime.now() - timedelta(minutes = 30)
+        testing_cart.get_items()
+
+        self.assertEqual(testing_cart._timer._last_updated_time.minute, datetime.now().minute)
+
 
 
 if __name__ == '__main__':
