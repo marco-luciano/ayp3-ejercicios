@@ -17,7 +17,7 @@ class TestBookPurchase(unittest.TestCase):
         with self.assertRaises(ValueError) as error:
             testing_book_purchase = BookPurchase(ilegal_isbn, testing_quantity)
         
-        self.assertEqual('Ilegal ISBN', str(error.exception))
+        self.assertEqual('Illegal ISBN', str(error.exception))
     
     def test02_invalid_quantity_should_raise_error(self):
         testing_isbn = '1234567891234'
