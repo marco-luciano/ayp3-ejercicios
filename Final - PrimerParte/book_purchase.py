@@ -8,8 +8,7 @@ class BookPurchase:
     
     def _validate_isbn(self, isbn_to_validate):
         if len(str(isbn_to_validate)) != 13:
-            raise ValueError('Illegal ISBN')
-        
+            raise ValueError('Illegal ISBN')    
 
     def _validate_quantity(self, quantity_to_validate):
         if quantity_to_validate < 1:
