@@ -16,7 +16,7 @@ class TestCreditCardValidat(unittest.TestCase):
             self.credit_card_expiration,
             self.credit_card_owner,
             self.amount
-        )['status'])
+        )['status'])<
     
     def test01_return_false_with_invalid_credit_card_number(self):
         invalid_credit_card_number = ""
