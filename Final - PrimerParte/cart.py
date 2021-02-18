@@ -26,3 +26,11 @@ class Cart:
             total_price += product.get_total_price()
         
         return total_price
+    
+    def checkout_cart(self, credit_card_number, credit_card_expiration, credit_card_owner,
+                      merchant_processor_handler):
+        return merchant_processor_handler.process_checkout(
+            credit_card_number, 
+            credit_card_expiration,
+            credit_card_owner,
+            "%0.2f" % self.get_total_price())

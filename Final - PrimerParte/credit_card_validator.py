@@ -22,7 +22,7 @@ class CreditCardValidator:
         return len(str(name)) != 0
     
     def validate_transaction_amount(self, transaction_amount):
-        amount_split = transaction_amount.split(".")
+        amount_split = str(transaction_amount).split(".")
 
         if len(amount_split) != 2:
             return False
