@@ -13,10 +13,7 @@ class CreditCardValidator:
     def validate_if_expiration_date_expired(self, expiration_date_string):
         expiration_date = datetime.strptime(expiration_date_string, '%m%Y')
 
-        if expiration_date > datetime.today():
-            return True
-        else:
-            return False
+        return expiration_date > datetime.today()
     
     def validate_credit_card_owner_name(self, name):
         return len(str(name)) != 0
