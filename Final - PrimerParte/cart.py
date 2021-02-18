@@ -18,3 +18,11 @@ class Cart:
     
     def number_of_products(self):
         return len(self.get_products())
+    
+    def get_total_price(self):
+        total_price = 0
+        
+        for product in self._products:
+            total_price += product.get_total_price()
+        
+        return total_price
