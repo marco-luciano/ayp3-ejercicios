@@ -42,7 +42,18 @@ class CreditCardValidator:
         return len(decimal_number) == 2 and decimal_number.isdecimal()
 
     def validate_credit_card(self, card_number, card_expiration_date, card_owner, transaction_amount):
-        return self.validate_credit_card_number(card_number) \
-            and self.validate_credit_card_expiration_date(card_expiration_date) \
-            and self.validate_credit_card_owner_name(card_owner) \
-            and self.validate_transaction_amount(transaction_amount)
+        final_process_msg = ''
+
+        if not self.validate_credit_card_number(card_number):
+            final_process_msg = 'Invalid credit card number.'
+        elif not self.validate_credit_card_expiration_date(card_expiration_date):
+            final_process_msg = 'Invalid credit card expiration date.'
+        elif not self.validate_credit_card_owner_name(card_owner):
+            final_process_msg = 'Invalid credit card owner name.'
+        elif not self.validate_transaction_amount(transaction_amount):
+            final_process_msg = 'Invalid transaction amount.'
+
+        return {
+            'status' : final_process_msg == '',
+            'msg' : final_process_msg
+        }
