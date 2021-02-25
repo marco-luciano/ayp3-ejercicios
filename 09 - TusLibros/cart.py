@@ -1,9 +1,12 @@
+import uuid
 from expiration_timer import ExpirationTimer
 
 class Cart:
-    def __init__(self):
+    def __init__(self, customer_id = ''):
         self._timer = ExpirationTimer(30)
         self._products = []
+        self._customer_id = customer_id
+        self._uuid = str(uuid.uuid4())
 
     def add_item(self, item):
         self._products.append(item)
@@ -34,3 +37,6 @@ class Cart:
             credit_card_expiration,
             credit_card_owner,
             "%0.2f" % self.get_total_price())
+    
+    def uuid(self):
+        return self._uuid

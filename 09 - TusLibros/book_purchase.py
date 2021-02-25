@@ -1,3 +1,5 @@
+import uuid
+
 class BookPurchase:
     def __init__(self, isbn, quantity, price_per_unit):
         self._validate_isbn(isbn)
@@ -7,6 +9,7 @@ class BookPurchase:
         self._isbn = isbn
         self._quantity = quantity
         self._price_per_unit = price_per_unit
+        self._uuid = str(uuid.uuid4())
     
     def _validate_isbn(self, isbn_to_validate):
         if len(str(isbn_to_validate)) != 13:
@@ -28,3 +31,6 @@ class BookPurchase:
     
     def get_total_price(self):
         return self._price_per_unit * self._quantity
+    
+    def uuid(self):
+        return self._uuid
