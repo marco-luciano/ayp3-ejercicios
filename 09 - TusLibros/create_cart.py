@@ -24,4 +24,13 @@ class CreateCart:
             self.description = 'CUSTOMER_NOT_FOUND'
     
     def response(self):
-        return self.code + '|' + self.description
+        return self.get_code() + '|' + self.get_description()
+
+    def get_code(self):
+        return self.code
+
+    def get_description(self):
+        return self.description
+
+    def get_cart(self):
+        return self._cart

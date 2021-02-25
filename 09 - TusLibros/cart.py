@@ -9,8 +9,21 @@ class Cart:
         self._uuid = str(uuid.uuid4())
 
     def add_item(self, item):
+
+        code = 0
+        description = ''
+
+        for product in self._products:
+            if item.get_isbn() == product.get_isbn():
+                code = 1
+                description = 'Duplicate ISBN'
         self._products.append(item)
         self._timer.reset_time()
+        
+        return {
+            'code' : code,
+            'description' : description
+        }
 
     def get_products(self):
         if self._timer.has_expired():

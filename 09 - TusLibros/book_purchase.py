@@ -34,3 +34,5 @@ class BookPurchase:
     
     def uuid(self):
         return self._uuid
+
+    

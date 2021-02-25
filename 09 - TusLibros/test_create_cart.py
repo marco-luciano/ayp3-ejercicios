@@ -16,7 +16,7 @@ class TestCreateCart(unittest.TestCase):
         customer_catalog.add(customer_test)
         create_cart = CreateCart(customer_test.uuid(), '123', customer_catalog)
 
-        self.assertEqual(create_cart.code, 0)
+        self.assertEqual(create_cart.get_code(), 0)
 
     def test01_invalid_credentials(self):
         customer_test = Customer('Foo', '123')
@@ -24,8 +24,8 @@ class TestCreateCart(unittest.TestCase):
         customer_catalog.add(customer_test)
         create_cart = CreateCart(customer_test.uuid(), '124', customer_catalog)
 
-        self.assertEqual(create_cart.code, 1)
-        self.assertEqual(create_cart.description, 'PASS_INCORRECT')
+        self.assertEqual(create_cart.get_code(), 1)
+        self.assertEqual(create_cart.get_description(), 'PASS_INCORRECT')
 
     def test02_customer_not_found(self):
         customer_test = Customer('Foo', '123')
@@ -33,8 +33,8 @@ class TestCreateCart(unittest.TestCase):
 
         create_cart = CreateCart(customer_test.uuid(), '123', customer_catalog)
 
-        self.assertEqual(create_cart.code, 1)
-        self.assertEqual(create_cart.description, 'CUSTOMER_NOT_FOUND')
+        self.assertEqual(create_cart.get_code(), 1)
+        self.assertEqual(create_cart.get_description(), 'CUSTOMER_NOT_FOUND')
 
 if __name__ == '__main__':
     unittest.main()
