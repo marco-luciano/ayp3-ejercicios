@@ -15,6 +15,7 @@ class TestAddToCart(unittest.TestCase):
         self.create_cart = CreateCart(self.customer_test.uuid(), '123', self.customer_catalog)
         self.cart_catalog = Catalog()
         self.cart_catalog.add(self.create_cart.get_cart())
+        self.cart_id = self.create_cart.get_description()
 
     def test00_product_added_succesfully(self):
 
@@ -22,7 +23,7 @@ class TestAddToCart(unittest.TestCase):
         product = BookPurchase('1234567890123', 1, 40.00)
         product_catalog.add(product)
 
-        add_to_cart = AddToCart(self.create_cart.get_description(), product.get_isbn(), product.get_quantity(), self.cart_catalog, product_catalog)
+        add_to_cart = AddToCart(self.cart_id, product.get_isbn(), product.get_quantity(), self.cart_catalog, product_catalog)
 
         self.assertEqual(add_to_cart.get_code(), 0)
 
@@ -39,7 +40,7 @@ class TestAddToCart(unittest.TestCase):
         self.assertEqual(add_to_cart.get_description(), 'Duplicate ISBN')
 
     def test02_cart_not_found_in_catalog(self):
-
+        # simulacion de catalogo
         product_catalog = BookPurchaseCatalog()
         product = BookPurchase('1234567890123', 1, 40.00)
         product_catalog.add(product)
